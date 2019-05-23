@@ -15,6 +15,7 @@ std::map<char,int> precedence = {
 };
 
 Implementation* Implementation::buildFromEquation(std::string equation) {
+    cout << "before clean equation " << equation << endl;
     equation = clean(equation);
     cout << "clean equation " << equation << endl;
     return new Implementation(equation);
@@ -148,6 +149,7 @@ void Implementation::shuntingYard() {
 }
 
 std::string Implementation::clean(std::string equation) {
+    cout << "equation " << equation << endl;
     string new_equation = "";
     int countMinus = 0;
     int countPlus = 0;
@@ -164,6 +166,7 @@ std::string Implementation::clean(std::string equation) {
             new_equation.push_back(s);
         }
     }
+    cout << "new_equation " << new_equation << endl;
     return clean2(new_equation);
 }
 
@@ -171,7 +174,7 @@ std::string Implementation::clean2(std::string equation) {
     bool lastCharRead = true;
     std::string new_eq = "";
     for(char c : equation) {
-        if(c >= '0' && c <= '9') lastCharRead = false;
+        if(c >= '0' && c <= '9' || c <= 'z' && c >= 'a') lastCharRead = false;
         else if (c == '*' || c == '/' || c == '(') lastCharRead = true;
         if(lastCharRead && c == '-') c = '~';
         new_eq.push_back(c);
